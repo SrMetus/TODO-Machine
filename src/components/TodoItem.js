@@ -1,10 +1,8 @@
-import React from 'react'
-
-export const TodoItem = () => {
+export const TodoItem = ({text, onComplete}) => {
   return (
     <div>
-        <span>✅</span>
-        <h2>llorar con la Llorona</h2>
+        <span onClick={onComplete}>✅</span>
+        <h2>{text}</h2>
         <span>❌</span>
     </div>
   )

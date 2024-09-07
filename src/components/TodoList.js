@@ -1,7 +1,7 @@
-import { TodoItem } from './TodoItem';
-
-export const TodoList = () => {
+export const TodoList = ({children}) => {
   return (
-    <TodoItem />
+    <ul>
+      {children}
+    </ul>
   )
 }
