@@ -1,3 +1,6 @@
+import { EmptyTodos } from './EmptyTodos';
+import { IsError } from './IsError';
+import { IsLoading } from './IsLoading';
 import { TodoButton } from './TodoButton';
 import { TodoCounter } from './TodoCounter';
 import { TodoItem } from './TodoItem';
@@ -24,9 +27,9 @@ export const AppUi = ({
         setSearchValue={setSearchValue}
       />
       <TodoList>
-        {isLoading && <p>Estamos cargando...</p>}
-        {isError && <p>Hubo un error...</p>}
-        {(!isLoading && searchedTodos.length === 0) && <p>Crea tu primer TODO!</p>}
+        {isLoading && <IsLoading />}
+        {isError && <IsError />}
+        {(!isLoading && searchedTodos.length === 0) && <EmptyTodos />}
 
         {searchedTodos.map(({text, completed}) => (
           <TodoItem 
