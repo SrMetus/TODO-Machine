@@ -13,20 +13,30 @@ import { TodoSearch } from './components/TodoSearch';
 //   {text: 'Hacer la cena', completed: true},
 //   {text: 'Aprender React.js', completed: false},
 // ]
-// localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos)); 
+// localStorage.setItem('TODOS_V1', JSON.stringify(defaultTodos));
+
+const useLocalStorage = (itemName, initialValue) => {
+  const localStorageItem = localStorage.getItem(itemName)
+  let parseditem;
+  
+  if (!localStorageItem) {
+    localStorage.setItem(itemName, JSON.stringify([initialValue]))
+    parseditem = [initialValue];
+  } else {
+    parseditem = JSON.parse(localStorageItem)
+  }
+
+  const [item, setItem] = useState(parseditem);
+
+  const saveItem = newItem => {
+    localStorage.setItem(itemName, JSON.stringify(newItem))
+    setItem(newItem)
+  }
+  return [item, saveItem]
+}
 
 function App() {
-  const localStorageTodos = localStorage.getItem('TODOS_V1')
-  let parsedTodos;
-
-  if (!localStorageTodos) {
-    localStorage.setItem('TODOS_V1', JSON.stringify([]))
-    parsedTodos = [];
-  } else {
-    parsedTodos = JSON.parse(localStorageTodos)
-  }
-  
-  const [todos, setTodos] = useState(parsedTodos)
+  const [todos, saveTodos] = useLocalStorage('TODOS_V1', [])
   const [searchValue, setSearchValue] = useState('')
 
   const completedTodos = todos.filter(todo => !!todo.completed).length
@@ -34,11 +44,6 @@ function App() {
 
   const searchedTodos = todos.filter(todo => 
     todo.text.toLowerCase().includes(searchValue.toLowerCase()))
-
-  const saveTodos = newTodos => {
-    localStorage.setItem('TODOS_V1', JSON.stringify(newTodos))
-    setTodos(newTodos)
-  }
 
   const completeTodo = (text) => {
     const newTodos = [...todos]
